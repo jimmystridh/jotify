@@ -3,7 +3,13 @@ package de.felixbruns.spotify.crypto;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import de.felixbruns.spotify.Channel;
+
 public class RandomBytes {
+	private final static Logger log = LoggerFactory.getLogger(RandomBytes.class);
 	private static SecureRandom secureRandom;
 	
 	static{
@@ -11,7 +17,7 @@ public class RandomBytes {
 			secureRandom = SecureRandom.getInstance("SHA1PRNG");
 		}
 		catch(NoSuchAlgorithmException e){
-			System.err.println("Algorithm not available: " + e.getMessage());
+			log.error("Algorithm not available: " + e.getMessage());
 		}
 	}
 	

@@ -2,7 +2,11 @@ package de.felixbruns.spotify.crypto;
 
 import java.util.Arrays;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class Shannon {
+	private final static Logger log = LoggerFactory.getLogger(Shannon.class);
 	private static int N = 16;
 	
 	private int[] R;
@@ -608,9 +612,9 @@ public class Shannon {
 		byte[] dataBuffer = dataString.getBytes();
 		
 		/* Print info. */
-		System.out.println("--------------------------------------------------");
-		System.out.println("Shannon stream cipher self test:");
-		System.out.println("Plaintext: " + dataString);
+		log.debug("--------------------------------------------------");
+		log.debug("Shannon stream cipher self test:");
+		log.debug("Plaintext: " + dataString);
 		
 		/* Set key and nonce, then encrypt. */
 		shannon.key(key);
@@ -618,7 +622,7 @@ public class Shannon {
 		shannon.encrypt(dataBuffer);
 		
 		/* Print encrypted data. */
-		System.out.println("Encrypted: " + new String(dataBuffer));
+		log.debug("Encrypted: " + new String(dataBuffer));
 		
 		
 		/* Set key and nonce, then decrypt. */
@@ -632,17 +636,17 @@ public class Shannon {
 		shannon.decrypt(b);
 
 		/* Print decrypted data. */
-		System.out.println("Decrypted: " + new String(a) + new String(b));
+		log.debug("Decrypted: " + new String(a) + new String(b));
 		
 		/* Check for success. */
 		if((new String(a) + new String(b)).equals(dataString)){
-			System.out.println("Self-test successful!");
+			log.info("Self-test successful!");
 		}
 		else{
-			System.err.println("Self-test failed!");
+			log.error("Self-test failed!");
 		}
 		
 		/* Print end marker. */
-		System.out.println("--------------------------------------------------");
+		log.debug("--------------------------------------------------");
 	}
 }

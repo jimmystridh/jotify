@@ -3,13 +3,18 @@ package de.felixbruns.spotify.util;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xbill.DNS.Lookup;
 import org.xbill.DNS.Record;
 import org.xbill.DNS.SRVRecord;
 import org.xbill.DNS.TextParseException;
 import org.xbill.DNS.Type;
 
+import de.felixbruns.spotify.Channel;
+
 public class ServerLookup {
+	private final static Logger log = LoggerFactory.getLogger(ServerLookup.class);
 	private static ServerLookup instance;
 	
 	static{
@@ -24,7 +29,7 @@ public class ServerLookup {
 			lookup = new Lookup(dnsName, Type.SRV);
 		}
 		catch(TextParseException e){
-			System.err.println("Error parsing DNS name: " + e.getMessage());
+			log.error("Error parsing DNS name: " + e.getMessage());
 		}
 		
 		if(lookup == null){

@@ -8,7 +8,13 @@ import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.util.Arrays;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import de.felixbruns.spotify.Channel;
+
 public class RSA {
+	private final static Logger log = LoggerFactory.getLogger(RSA.class);
 	private static KeyPairGenerator keyPairGenerator;
 	private static RSA              instance;
 	
@@ -17,7 +23,7 @@ public class RSA {
 			keyPairGenerator = KeyPairGenerator.getInstance("RSA");
 		}
 		catch(NoSuchAlgorithmException e){
-			System.err.println("Algorithm not available: " + e.getMessage());
+			log.error("Algorithm not available: " + e.getMessage());
 		}
 		
 		instance = new RSA();

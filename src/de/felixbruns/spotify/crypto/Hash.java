@@ -8,7 +8,13 @@ import javax.crypto.Mac;
 import javax.crypto.ShortBufferException;
 import javax.crypto.spec.SecretKeySpec;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import de.felixbruns.spotify.Channel;
+
 public class Hash {
+	private final static Logger log = LoggerFactory.getLogger(Hash.class);
 	private static MessageDigest digestSha1;
 	private static MessageDigest digestMd5;
 	private static Mac           hmacSha1;
@@ -20,7 +26,7 @@ public class Hash {
 			hmacSha1   = Mac.getInstance("HmacSHA1");
 		}
 		catch(NoSuchAlgorithmException e){
-			System.err.println("Algorithm not available: " + e.getMessage());
+			log.error("Algorithm not available: " + e.getMessage());
 		}
 	}
 	
@@ -59,7 +65,7 @@ public class Hash {
 			hmacSha1.init(secretKey);
 		}
 		catch(InvalidKeyException e){
-			System.err.println("Invalid key: " + e.getMessage());
+			log.error("Invalid key: " + e.getMessage());
 			
 			return;
 		}
@@ -70,10 +76,10 @@ public class Hash {
 			hmacSha1.doFinal(output, offset);
 		}
 		catch(ShortBufferException e){
-			System.err.println("Output buffer is too short: " + e.getMessage());
+			log.error("Output buffer is too short: " + e.getMessage());
 		}
 		catch(IllegalStateException e){
-			System.err.println("Illegal state: " + e.getMessage());
+			log.error("Illegal state: " + e.getMessage());
 		}
 	}
 }

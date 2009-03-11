@@ -4,9 +4,14 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.felixbruns.spotify.util.ShortUtilities;
 
 public class Channel {
+	private final static Logger log = LoggerFactory.getLogger(Channel.class);
+	
 	/* Static channel id counter. */
 	private static int nextId = 0;
 	private static Map<Integer, Channel> channels;
@@ -75,7 +80,7 @@ public class Channel {
 		
 		/* Get Channel by id from payload. */
 		if((channel = Channel.channels.get(ShortUtilities.bytesToUnsignedShort(payload))) == null){
-			System.err.println("Channel not found!");
+			log.error("Channel not found!");
 			
 			return;
 		};
@@ -85,7 +90,7 @@ public class Channel {
 		
 		if(channel.state.equals(State.STATE_HEADER)){
 			if(length < 2){
-				System.err.println("Length is smaller than 2!");
+				log.error("Length is smaller than 2!");
 				
 				return; 
 			}
@@ -102,7 +107,7 @@ public class Channel {
 				}
 				
 				if(consumedLength + headerLength > length){
-					System.err.println("Not enough data!");
+					log.error("Not enough data!");
 					
 					return;
 				}
@@ -118,7 +123,7 @@ public class Channel {
 			}
 			
 			if(consumedLength != length){
-				System.err.println("Didn't consume all data!");
+				log.error("Didn't consume all data!");
 				
 				return;
 			}
@@ -155,7 +160,7 @@ public class Channel {
 		
 		/* Get Channel by id from payload. */
 		if((channel = Channel.channels.get(ShortUtilities.bytesToUnsignedShort(payload))) == null){
-			System.err.println("Channel not found!");
+			log.error("Channel not found!");
 			
 			return;
 		};
